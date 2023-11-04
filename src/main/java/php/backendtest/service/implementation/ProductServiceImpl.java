@@ -28,8 +28,6 @@ public class ProductServiceImpl implements ProductService {
         Integer productCode = product.getCode();
         if (productId != null && productRepository.existsById(productId)) {
             throw new IllegalArgumentException("O ID deste produto já está cadastrado.");
-        } else if (productRepository.existsByCode(productCode)) {
-            throw new IllegalArgumentException("O código deste produto já está cadastrado.");
         }
 
         return productRepository.save(product);

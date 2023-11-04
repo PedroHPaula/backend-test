@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface InstallmentRepository extends JpaRepository<Installment, Long> {
 
-    @Query(value = "SELECT * FROM INSTALLMENT WHERE PAYMENT_INFO_ID = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM INSTALLMENT_TB WHERE PAYMENT_INFO_ID = ?1", nativeQuery = true)
     List<Installment> findAllByPaymentId(Long paymentId);
 
 }

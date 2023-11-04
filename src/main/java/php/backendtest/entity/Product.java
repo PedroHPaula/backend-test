@@ -9,13 +9,22 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    //@Column(unique = true)
     private Integer code;
 
     private String name;
 
     @Column(precision = 6, scale = 2)
     private BigDecimal price;
+
+    public Product() {
+    }
+
+    public Product(Integer code, String name, BigDecimal price) {
+        this.code = code;
+        this.name = name;
+        this.price = price;
+    }
 
     public Long getId() {
         return id;
