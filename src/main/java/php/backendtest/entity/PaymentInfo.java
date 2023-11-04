@@ -18,6 +18,14 @@ public class PaymentInfo {
 
     private Integer numberOfInstallments;
 
+    public PaymentInfo() {
+    }
+
+    public PaymentInfo(BigDecimal entry, Integer numberOfInstallments) {
+        this.entry = entry;
+        this.numberOfInstallments = numberOfInstallments;
+    }
+
     public Long getId() {
         return id;
     }

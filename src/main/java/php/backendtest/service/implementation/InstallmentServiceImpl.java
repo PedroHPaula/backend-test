@@ -8,6 +8,7 @@ import php.backendtest.service.InstallmentService;
 import php.backendtest.service.PaymentInfoService;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -45,11 +46,11 @@ public class InstallmentServiceImpl implements InstallmentService {
         }
 
         PaymentInfo paymentInfo = installment.getPaymentInfo();
-
+/*
         installment.setPaymentInfo(
                 paymentInfoService.findById(paymentInfo.getId())
         );
-
+*/
         BigDecimal numberOfInstallments = BigDecimal.valueOf(paymentInfo.getNumberOfInstallments());
 
         if (installment.getPaymentInfo().getNumberOfInstallments() > 6) {
@@ -62,10 +63,12 @@ public class InstallmentServiceImpl implements InstallmentService {
         BigDecimal entry = paymentInfo.getEntry();
         BigDecimal totalPriceOfInstallments = productPrice.subtract(entry);
         BigDecimal priceOfInstallmentWithoutInterest = totalPriceOfInstallments
-                                                        .divide(numberOfInstallments, RoundingMode.DOWN);
+                                                        .divide(numberOfInstallments, MathContext.DECIMAL128);
 
         installment.setPrice(
-            priceOfInstallmentWithoutInterest.multiply(BigDecimal.ONE.add(fixedMonthlyInterestRate))
+            priceOfInstallmentWithoutInterest
+                    .multiply(BigDecimal.ONE.add(installment.getMonthlyInterestRate()))
+                    .setScale(2, RoundingMode.HALF_EVEN)
         );
 
         return installmentRepository.save(installment);
